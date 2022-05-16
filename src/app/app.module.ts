@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddNewLocationComponent } from './add-new-location/add-new-location.component';
 import { OverviewComponent } from './overview/overview.component';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddNewLocationComponent,
-    OverviewComponent
+    OverviewComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
