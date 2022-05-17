@@ -9,7 +9,7 @@ import { CurrentWeather } from './current-weather';
   providedIn: 'root',
 })
 export class WeatherService {
-  private apiKey: string = '75ad1daba567a8679eb2c0c214f9399f';
+  private apiKey: string = '';
 
   constructor(private http: HttpClient) {}
 
