@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WeatherService } from '../weather.service';
 
 @Component({
   selector: 'app-add-new-location',
@@ -6,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./add-new-location.component.css'],
 })
 export class AddNewLocationComponent implements OnInit {
-  constructor() {}
+  constructor(private weatherService: WeatherService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.weatherService.getCurrentWeather(7, 51).subscribe((data) => {
+      console.log(data);
+    });
+  }
 }
