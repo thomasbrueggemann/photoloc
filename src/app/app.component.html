@@ -1,16 +1,45 @@
-<h1>PhotoLoc</h1>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item">
+      <h1 class="title is-4">PhotoLoc</h1>
+    </a>
 
-<nav>
-  <ul>
-    <li>
-      <a routerLink="/add-new-location" routerLinkActive="active"
-        >Add new location</a
-      >
-    </li>
-    <li>
-      <a routerLink="/overview" routerLinkActive="active">Overview</a>
-    </li>
-  </ul>
+    <a
+      role="button"
+      class="navbar-burger"
+      aria-label="menu"
+      aria-expanded="false"
+      data-target="navbarBasicExample"
+    >
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" routerLink="/overview" routerLinkActive="active">
+        Overview
+      </a>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          <a
+            routerLink="/add-new-location"
+            routerLinkActive="active"
+            class="button is-primary"
+          >
+            <strong>Add new location</strong>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </nav>
 
-<router-outlet></router-outlet>
+<section class="section">
+  <router-outlet></router-outlet>
+</section>

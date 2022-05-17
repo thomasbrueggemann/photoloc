@@ -9,6 +9,7 @@ import * as L from 'leaflet';
 export class MapComponent implements AfterViewInit {
   private map: any;
   private geoLocationWatch: number | undefined;
+  private centerPosition: L.Circle | undefined;
 
   private initMap(): void {
     this.map = L.map('map', {
@@ -32,7 +33,11 @@ export class MapComponent implements AfterViewInit {
   private updateLocationOnMap(position: GeolocationPosition): void {
     this.map.setView([position.coords.latitude, position.coords.longitude], 13);
 
-    const circle = L.circle(
+    if (this.centerPosition) {
+      this.map.removeLayer(this.centerPosition);
+    }
+
+    this.centerPosition = L.circle(
       [position.coords.latitude, position.coords.longitude],
       {
         color: 'red',
@@ -42,7 +47,7 @@ export class MapComponent implements AfterViewInit {
       }
     ).addTo(this.map);
 
-    this.map.fitBounds(circle.getBounds());
+    this.map.fitBounds(this.centerPosition.getBounds());
   }
 
   private startGeolocationWatch(): void {
