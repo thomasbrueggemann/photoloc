@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, Input } from '@angular/core';
 import * as L from 'leaflet';
 
 @Component({
@@ -8,8 +8,18 @@ import * as L from 'leaflet';
 })
 export class MapComponent implements AfterViewInit {
   private map: any;
-  private geoLocationWatch: number | undefined;
   private centerPosition: L.Circle | undefined;
+
+  _location: GeolocationPosition | undefined = undefined;
+  get location(): GeolocationPosition | undefined {
+    return this._location;
+  }
+  @Input() set location(value: GeolocationPosition | undefined) {
+    this._location = value;
+    if (value) {
+      this.updateLocationOnMap(value);
+    }
+  }
 
   private initMap(): void {
     this.map = L.map('map', {
@@ -50,36 +60,9 @@ export class MapComponent implements AfterViewInit {
     this.map.fitBounds(this.centerPosition.getBounds());
   }
 
-  private startGeolocationWatch(): void {
-    const options = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 0,
-    };
-
-    this.geoLocationWatch = navigator.geolocation.watchPosition(
-      (position) => this.updateLocationOnMap(position),
-      (err) => {
-        console.warn('ERROR(' + err.code + '): ' + err.message);
-      },
-      options
-    );
-  }
-
-  private stopGeolocationWatch(): void {
-    if (this.geoLocationWatch) {
-      navigator.geolocation.clearWatch(this.geoLocationWatch);
-    }
-  }
-
   constructor() {}
 
   ngAfterViewInit(): void {
     this.initMap();
-    this.startGeolocationWatch();
-  }
-
-  ngOnDestroy(): void {
-    this.stopGeolocationWatch();
   }
 }

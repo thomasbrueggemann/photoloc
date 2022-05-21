@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { AddNewLocationComponent } from './add-new-location/add-new-location.component';
 import { OverviewComponent } from './overview/overview.component';
 import { MapComponent } from './map/map.component';
+import { addNewLocationReducer } from './add-new-location/add-new-location.reducer';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,12 @@ import { MapComponent } from './map/map.component';
     OverviewComponent,
     MapComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    StoreModule.forRoot({ addNewLocation: addNewLocationReducer }),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
