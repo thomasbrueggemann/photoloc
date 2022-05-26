@@ -15,6 +15,14 @@ export const fetchWeather = createAction(
   props<{ location: GeolocationPosition }>()
 );
 
+export const dontFetchWeather = createAction(
+  '[Add New Location Component] dontFetchWeather'
+);
+
+export const triggerFetchWeatherFailed = createAction(
+  '[Add New Location Component] triggerFetchWeatherFailed'
+);
+
 export const setWeather = createAction(
   '[Add New Location Component] setWeather',
   props<{ weather: CurrentWeather }>()

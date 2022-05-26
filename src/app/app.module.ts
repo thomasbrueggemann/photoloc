@@ -9,8 +9,8 @@ import { OverviewComponent } from './overview/overview.component';
 import { MapComponent } from './map/map.component';
 import { addNewLocationReducer } from './add-new-location/add-new-location.reducer';
 import { StoreModule } from '@ngrx/store';
-import { WeatherEffects } from './add-new-location/weather/weather.effects';
 import { EffectsModule } from '@ngrx/effects';
+import { AddNewLocationEffects } from './add-new-location/add-new-location.effects';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,7 @@ import { EffectsModule } from '@ngrx/effects';
     AppRoutingModule,
     HttpClientModule,
     StoreModule.forRoot({ addNewLocation: addNewLocationReducer }),
-    EffectsModule.forRoot([WeatherEffects]),
+    EffectsModule.forRoot([AddNewLocationEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -9,9 +9,9 @@ import { CurrentWeather } from './current-weather';
   providedIn: 'root',
 })
 export class WeatherService {
-  private apiKey: string = '';
+  private apiKey: string = 'ce47d1033cd0d41ad7eb0f2d7d9c7ab8';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getCurrentWeather(longitude: number, latitude: number) {
     return this.http.get<CurrentWeather>(

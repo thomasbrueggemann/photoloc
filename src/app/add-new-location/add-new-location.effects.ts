@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { EMPTY } from 'rxjs';
 import * as turf from '@turf/turf';
-import { map, catchError, switchMap } from 'rxjs/operators';
+import { map, catchError, switchMap, exhaustMap } from 'rxjs/operators';
 import {
+  dontFetchWeather,
   fetchWeather,
   setCurrentLocation,
   setWeather,
 } from './add-new-location.actions';
-import { locationSelector } from './add-new-location.selectors';
+import { lastWeatherLocationSelector } from './add-new-location.selectors';
 import { AddNewLocationState } from './add-new-location.state';
 import { WeatherService } from './weather/weather.service';
 
 @Injectable()
-export class WeatherEffects {
+export class AddNewLocationEffects {
   fetchCurrentWeather$ = createEffect(() =>
     this.actions$.pipe(
       ofType(fetchWeather),
@@ -35,34 +36,41 @@ export class WeatherEffects {
   triggerWeatherFetch$ = createEffect(() =>
     this.actions$.pipe(
       ofType(setCurrentLocation),
-      concatLatestFrom(() => this.store.select(locationSelector)),
-      switchMap(([action, location]) => {
-        // TODO: check if location has moved more then THREADHOLD_METERS, or the last location
-        // is older than THRESHOLD_MINUTES
+      exhaustMap(action =>
+        this.store.select(lastWeatherLocationSelector).pipe(
+          map(lastWeatherLocation => {
 
-        var from = turf.point([
-          location?.coords.longitude || 0,
-          location?.coords.latitude || 0,
-        ]);
+            if (!lastWeatherLocation) {
+              return fetchWeather({ location: action.location });
+            }
 
-        var to = turf.point([
-          action.location.coords.longitude,
-          action.location.coords.latitude,
-        ]);
+            var from = turf.point([
+              lastWeatherLocation?.coords.longitude || 0,
+              lastWeatherLocation?.coords.latitude || 0,
+            ]);
 
-        var distance = turf.distance(from, to, { units: 'meters' });
-		var time_delta = Math.abs(location?.timestamp || 0 - action.location.timestamp);
+            var to = turf.point([
+              action.location.coords.longitude,
+              action.location.coords.latitude,
+            ]);
 
-        const fetchWeather: boolean = distance > 1000 ||;
-        if (fetchWeather) {
-        }
-      })
-    )
-  );
+            var distance = turf.distance(from, to, { units: 'meters' });
+            var time_delta = Math.abs(lastWeatherLocation?.timestamp || 0 - action.location.timestamp);
+
+            const shouldFetchWeather: boolean = (distance > 1000 || time_delta > 1000 * 60 * 5) && action.location.coords.accuracy < 1000;
+            if (shouldFetchWeather) {
+              return fetchWeather({ location: action.location });
+            }
+
+            return dontFetchWeather();
+          })
+        )
+      )
+    ));
 
   constructor(
     private actions$: Actions,
     private weatherService: WeatherService,
     private store: Store<AddNewLocationState>
-  ) {}
+  ) { }
 }

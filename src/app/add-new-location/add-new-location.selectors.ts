@@ -8,3 +8,13 @@ export const locationSelector = createSelector(
   addNewLocation,
   (state) => state.currentLocation
 );
+
+export const weatherSelector = createSelector(
+  addNewLocation,
+  (state) => state.weather
+);
+
+export const lastWeatherLocationSelector = createSelector(
+  addNewLocation,
+  (state) => state.lastWeatherLocation
+);
