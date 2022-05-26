@@ -16,22 +16,7 @@
         </tr>
         <tr>
           <td>🌤 <b>Weather</b></td>
-          <td>Clear sky, 23°C</td>
-        </tr>
-        <tr>
-          <td>♻️ <b>Return</b></td>
-          <td>
-            <div class="select">
-              <select>
-                <option>- no preference -</option>
-                <option>Morning</option>
-                <option>Midday</option>
-                <option>Afternoon</option>
-                <option>Evening</option>
-                <option>Night</option>
-              </select>
-            </div>
-          </td>
+          <td>{{ displazWeather(weather$ | async) }}</td>
         </tr>
       </table>
 
