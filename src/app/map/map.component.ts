@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input } from '@angular/core';
+import { Component, AfterViewInit, Input, SimpleChanges } from '@angular/core';
 import * as L from 'leaflet';
 
 @Component({
@@ -10,12 +10,13 @@ export class MapComponent implements AfterViewInit {
   private map: any;
   private centerPosition: L.Circle | undefined;
 
-  _location: GeolocationPosition | undefined = undefined;
-  get location(): GeolocationPosition | undefined {
+  _location: GeolocationPosition | undefined | null = undefined;
+  get location(): GeolocationPosition | undefined | null {
     return this._location;
   }
-  @Input() set location(value: GeolocationPosition | undefined) {
+  @Input() set location(value: GeolocationPosition | undefined | null) {
     this._location = value;
+    console.log(value);
     if (value) {
       this.updateLocationOnMap(value);
     }
@@ -64,5 +65,11 @@ export class MapComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initMap();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.location) {
+      this.updateLocationOnMap(this.location);
+    }
   }
 }

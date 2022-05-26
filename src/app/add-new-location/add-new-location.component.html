@@ -1,6 +1,6 @@
 <h1 class="subtitle is-3">Add new location</h1>
 
-<app-map></app-map>
+<app-map [location]="location$ | async"></app-map>
 
 <div class="card">
   <div class="card-content">
@@ -8,11 +8,11 @@
       <table>
         <tr>
           <td>⌚️ <b>Time</b></td>
-          <td>2th Feb 2022, 13h</td>
+          <td>{{ displayDate((location$ | async)?.timestamp) }}</td>
         </tr>
         <tr>
           <td>🧭 <b>Heading</b></td>
-          <td>North</td>
+          <td>{{ displayHeading((location$ | async)?.coords?.heading) }}</td>
         </tr>
         <tr>
           <td>🌤 <b>Weather</b></td>

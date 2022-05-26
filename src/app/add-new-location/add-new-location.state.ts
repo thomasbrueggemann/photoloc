@@ -1,3 +1,9 @@
 export interface AddNewLocationState {
-  location: GeolocationPosition | undefined;
+  readonly currentLocation?: GeolocationPosition;
+  readonly lastWeatherLocation?: GeolocationPosition;
 }
+
+export const initialState: AddNewLocationState = {
+  currentLocation: undefined,
+  lastWeatherLocation: undefined,
+};
