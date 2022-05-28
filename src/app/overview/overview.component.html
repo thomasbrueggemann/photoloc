@@ -1,1 +1,5 @@
 <p>overview works!</p>
+
+<b *ngFor="let location of locations$ | async">
+    {{location.id}}
+</b>

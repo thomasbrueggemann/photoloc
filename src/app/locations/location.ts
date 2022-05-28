@@ -1,4 +1,5 @@
 export interface Location {
+  id: string;
   coords: {
     latitude: number;
     longitude: number;
@@ -8,5 +9,5 @@ export interface Location {
   weather: {
     condition: string;
     temperature: number;
-  };
+  } | undefined;
 }

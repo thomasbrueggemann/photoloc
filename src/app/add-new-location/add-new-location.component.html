@@ -8,27 +8,21 @@
       <table>
         <tr>
           <td>
-            <span class="icon icon-lightgrey"
-              ><i class="fa-solid fa-clock fa-fw"></i
-            ></span>
+            <span class="icon icon-lightgrey"><i class="fa-solid fa-clock fa-fw"></i></span>
             <b>Time</b>
           </td>
           <td>{{ displayDate((location$ | async)?.timestamp) }}</td>
         </tr>
         <tr>
           <td>
-            <span class="icon icon-lightgrey"
-              ><i class="fa-solid fa-compass fa-fw"></i
-            ></span>
+            <span class="icon icon-lightgrey"><i class="fa-solid fa-compass fa-fw"></i></span>
             <b>Heading</b>
           </td>
           <td>{{ displayHeading((location$ | async)?.coords?.heading) }}</td>
         </tr>
         <tr>
           <td>
-            <span class="icon icon-lightgrey"
-              ><i class="fa-solid fa-cloud-sun fa-fw"></i
-            ></span>
+            <span class="icon icon-lightgrey"><i class="fa-solid fa-cloud-sun fa-fw"></i></span>
             <b>Weather</b>
           </td>
           <td>{{ displayWeather(weather$ | async) }}</td>
@@ -38,4 +32,4 @@
   </div>
 </div>
 
-<button class="button is-fullwidth is-info mt-5">Save</button>
+<button class="button is-fullwidth is-info mt-5" (click)="onSave()">Save</button>

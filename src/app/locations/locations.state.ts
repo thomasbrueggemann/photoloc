@@ -1,3 +1,5 @@
+import { Location } from "./location";
+
 export interface LocationsState {
   readonly locations: Location[];
 }

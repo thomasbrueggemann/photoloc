@@ -32,3 +32,7 @@ export const setLastWeatherLocationLocation = createAction(
   '[Add New Location Component] setLastWeatherLocationLocation',
   props<{ location: GeolocationPosition }>()
 );
+
+export const storeNewLocation = createAction(
+  '[Add New Location Component] storeNewLocation'
+);

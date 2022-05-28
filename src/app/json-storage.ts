@@ -1,3 +1,3 @@
-export function persist<T>(obj: T) {
+export function persist<T>(key: string, obj: T) {
 
 }

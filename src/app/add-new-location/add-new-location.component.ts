@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { resetStore, setCurrentLocation } from './add-new-location.actions';
+import { LocationsState } from '../locations/locations.state';
+import { capitalize } from '../utils';
+import { resetStore, setCurrentLocation, storeNewLocation } from './add-new-location.actions';
 import {
   locationSelector,
   weatherSelector,
@@ -20,9 +22,12 @@ export class AddNewLocationComponent implements OnInit {
   location$: Observable<GeolocationPosition | undefined>;
   weather$: Observable<CurrentWeather | undefined>;
 
-  constructor(private store: Store<AddNewLocationState>) {
-    this.location$ = store.select(locationSelector);
-    this.weather$ = store.select(weatherSelector);
+  constructor(
+    private addNewLocationStore: Store<AddNewLocationState>,
+    private locationsStore: Store<LocationsState>) {
+
+    this.location$ = addNewLocationStore.select(locationSelector);
+    this.weather$ = addNewLocationStore.select(weatherSelector);
   }
 
   private startGeolocationWatch(): void {
@@ -33,7 +38,7 @@ export class AddNewLocationComponent implements OnInit {
     };
 
     this.geoLocationWatch = navigator.geolocation.watchPosition(
-      (location) => this.store.dispatch(setCurrentLocation({ location })),
+      (location) => this.addNewLocationStore.dispatch(setCurrentLocation({ location })),
       (err) => console.warn('ERROR(' + err.code + '): ' + err.message),
       options
     );
@@ -94,14 +99,14 @@ export class AddNewLocationComponent implements OnInit {
   displayWeather(weather: CurrentWeather | null | undefined): string {
     if (!weather) return '-';
 
-    const capitalize = (input: string) => {
-      return input.charAt(0).toUpperCase() + input.slice(1);
-    };
-
     const temperature = Math.round(weather.main.temp);
     const condition = capitalize(weather.weather[0].description);
 
     return `${condition}, ${temperature}°C`;
+  }
+
+  onSave(): void {
+    this.locationsStore.dispatch(storeNewLocation());
   }
 
   ngOnInit(): void {
@@ -112,6 +117,6 @@ export class AddNewLocationComponent implements OnInit {
   ngOnDestroy(): void {
     this.stopGeolocationWatch();
     this.stopDeviceOrientationWatch();
-    this.store.dispatch(resetStore());
+    this.addNewLocationStore.dispatch(resetStore());
   }
 }

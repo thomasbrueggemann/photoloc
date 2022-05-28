@@ -5,10 +5,9 @@ import { initialState } from './locations.state';
 export const locationsReducer = createReducer(
   initialState,
   on(addLocation, (state, { location }) => {
-    state.locations.push(location);
-
     return {
       ...state,
+      locations: [...state.locations, location]
     };
   })
 );
