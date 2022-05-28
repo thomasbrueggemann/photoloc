@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { resetStore, setCurrentLocation } from './add-new-location.actions';
-import { locationSelector, weatherSelector } from './add-new-location.selectors';
+import {
+  locationSelector,
+  weatherSelector,
+} from './add-new-location.selectors';
 import { AddNewLocationState } from './add-new-location.state';
 import { CurrentWeather } from './weather/current-weather';
 
@@ -42,6 +45,26 @@ export class AddNewLocationComponent implements OnInit {
     }
   }
 
+  private startDeviceOrientationWatch(): void {
+    window.addEventListener(
+      'deviceorientation',
+      this.handleDeviceOrientationChange,
+      true
+    );
+  }
+
+  private stopDeviceOrientationWatch(): void {
+    window.removeEventListener(
+      'deviceorientation',
+      this.handleDeviceOrientationChange
+    );
+  }
+
+  private handleDeviceOrientationChange(event: DeviceOrientationEvent): void {
+    const { alpha, beta, gamma } = event;
+    console.log(alpha, beta, gamma);
+  }
+
   displayDate(timestamp: number | undefined): string {
     if (!timestamp) return '';
 
@@ -68,20 +91,27 @@ export class AddNewLocationComponent implements OnInit {
     return directions[index];
   }
 
-  displazWeather(weather: CurrentWeather | null | undefined): string {
+  displayWeather(weather: CurrentWeather | null | undefined): string {
     if (!weather) return '-';
 
-    const temperature = weather.main.temp;
+    const capitalize = (input: string) => {
+      return input.charAt(0).toUpperCase() + input.slice(1);
+    };
 
-    return `${temperature}°C`;
+    const temperature = Math.round(weather.main.temp);
+    const condition = capitalize(weather.weather[0].description);
+
+    return `${condition}, ${temperature}°C`;
   }
 
   ngOnInit(): void {
     this.startGeolocationWatch();
+    this.startDeviceOrientationWatch();
   }
 
   ngOnDestroy(): void {
     this.stopGeolocationWatch();
+    this.stopDeviceOrientationWatch();
     this.store.dispatch(resetStore());
   }
 }
