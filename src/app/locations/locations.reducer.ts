@@ -7,7 +7,7 @@ export const locationsReducer = createReducer(
   on(addLocation, (state, { location }) => {
     return {
       ...state,
-      locations: [...state.locations, location]
+      locations: [...state.locations, location],
     };
   })
 );
