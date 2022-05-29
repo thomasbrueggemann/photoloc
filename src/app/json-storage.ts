@@ -4,5 +4,6 @@ export function persistObject<T>(key: string, obj: T) {
 
 export function readObject<T>(key: string): T {
     const value = localStorage.getItem(key);
+    console.log(value);
     return value ? JSON.parse(value) : null;
 }

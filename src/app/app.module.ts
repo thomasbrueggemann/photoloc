@@ -12,6 +12,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { AddNewLocationEffects } from './add-new-location/add-new-location.effects';
 import { locationsReducer } from './locations/locations.reducer';
+import { LocationsEffects } from './locations/locations.effects';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { locationsReducer } from './locations/locations.reducer';
     AppRoutingModule,
     HttpClientModule,
     StoreModule.forRoot({ addNewLocation: addNewLocationReducer, locations: locationsReducer }),
-    EffectsModule.forRoot([AddNewLocationEffects]),
+    EffectsModule.forRoot([AddNewLocationEffects, LocationsEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent],
